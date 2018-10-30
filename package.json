@@ -1,0 +1,20 @@
+{
+  "name": "Pothole-GO-Server",
+  "version": "1.0.0",
+  "description": "The server side code for Pothole Go Android Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theIYD/Pothole-GO-Server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theIYD/Pothole-GO-Server/issues"
+  },
+  "homepage": "https://github.com/theIYD/Pothole-GO-Server#readme"
+}
