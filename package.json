@@ -2,7 +2,7 @@
   "name": "Pothole-GO-Server",
   "version": "1.0.0",
   "description": "The server side code for Pothole Go Android Application",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/theIYD/Pothole-GO-Server/issues"
   },
-  "homepage": "https://github.com/theIYD/Pothole-GO-Server#readme"
+  "homepage": "https://github.com/theIYD/Pothole-GO-Server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.9",
+    "nodemon": "^1.18.5"
+  }
 }
