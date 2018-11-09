@@ -13,6 +13,10 @@ const pothole = new Schema({
         },
         height: {
             type: Number
+        },
+        timestamp: {
+            type: Date,
+            required: true
         }
     }
 });
