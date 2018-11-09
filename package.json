@@ -20,7 +20,12 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "gridfs-stream": "^1.1.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.3.9",
-    "nodemon": "^1.18.5"
+    "multer": "^1.4.1",
+    "multer-gridfs-storage": "^3.2.3",
+    "nodemon": "^1.18.5",
+    "npm": "^6.4.1"
   }
 }
