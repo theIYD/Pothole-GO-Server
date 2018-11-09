@@ -30,3 +30,7 @@ let port = process.env.PORT || 7000;
 app.listen(port, (req, res) => {
     console.log(`Server started on port ${port}`);
 });
+
+// Import routes
+const potholeRoute = require('./routes/Create');
+app.use("/api/v1/", potholeRoute);
