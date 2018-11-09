@@ -10,14 +10,32 @@ const pothole = new Schema({
         lng: {
             type: Number,
             required: true
+        }
+    },
+    images: {
+        original: {
+            type: Buffer,
+            required: true
         },
-        height: {
-            type: Number
-        },
-        timestamp: {
-            type: Date,
+        processed: {
+            type: Buffer,
             required: true
         }
+    },
+    height: {
+        type: Number
+    },
+    timestamp: {
+        type: Date,
+        required: true
+    },
+    length: {
+        type: Number,
+        required: true
+    },
+    width: {
+        type: Number,
+        required: true
     }
 });
 
