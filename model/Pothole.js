@@ -14,12 +14,20 @@ const pothole = new Schema({
     },
     images: {
         original: {
-            type: Buffer,
-            required: true
+            image1: {
+                type: String
+            },
+            image2: {
+                type: String
+            }
         },
         processed: {
-            type: Buffer,
-            required: true
+            image1: {
+                type: String
+            },
+            image2: {
+                type: String
+            }
         }
     },
     height: {
