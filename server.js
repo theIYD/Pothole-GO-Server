@@ -20,6 +20,7 @@ app.use(
     })
 );
 app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
 
 // Default route
 app.get("/api/v1", (req, res) => {
