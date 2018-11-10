@@ -1,38 +1,8 @@
 const mongoose = require("mongoose");
 const express = require("express");
-const path = require("path");
-const crypto = require("crypto");
-const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
-const Grid = require("gridfs-stream");
+const multerFunctions = require("../helpers/multer");
 const methodOverride = require("method-override");
 const api = express.Router();
-
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "./uploads/");
-  },
-  filename: function(req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
-  }
-});
-
-const fileFilter = (req, file, cb) => {
-  // reject a file
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
-});
 
 // Middleware
 api.use(methodOverride("_method"));
@@ -42,7 +12,7 @@ require("../model/Pothole");
 const POTHOLE_MODEL = mongoose.model("pothole");
 
 // Register a pothole
-api.post("/create", upload.array("images", 4), (req, res) => {
+api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
   //   console.log(req.files);
   let obj = {
     location: {
@@ -78,7 +48,7 @@ api.get("/potholes", (req, res) => {
 });
 
 // Upload processed images and potholes parameters
-api.post("/update/:id", upload.array("images", 4), (req, res) => {
+api.post("/update/:id", multerFunctions.upload.array("images", 4), (req, res) => {
   let _id = req.params.id;
 
   POTHOLE_MODEL.findById(_id).then(pothole => {
@@ -102,8 +72,10 @@ api.post("/update/:id", upload.array("images", 4), (req, res) => {
           }
         })
         .then(updated => {
-          console.log(updated);
-          console.log("UPDATED");
+          res.json({
+              success: true,
+              message: "Parameters and processed images updated successfully"
+          })
         });
     }
   });
