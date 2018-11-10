@@ -14,15 +14,16 @@ const POTHOLE_MODEL = mongoose.model("pothole");
 // Register a pothole
 api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
   //   console.log(req.files);
-  let obj = {
+  let obj;
+
+  obj = {
     location: {
       lat: req.body.lat,
       lng: req.body.lng
     },
     images: {
       original: {
-        image1: req.files[0].path,
-        image2: req.files[1].path
+        original_images: []
       }
     },
     height: 0,
@@ -31,11 +32,30 @@ api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
     width: 0
   };
 
-  const newPothole = new POTHOLE_MODEL(obj);
-  newPothole.save().then(success => {
-    console.log("Successfully saved");
-    res.json({ success: "Saved" });
-  });
+  if (req.files.length !== 0) {
+    req.files.forEach((file, index) => {
+      multerFunctions
+        .uploadImageToStorage(file)
+        .then(url => {
+          obj.images.original.original_images.push(url);
+        })
+        .catch(err => console.log(err));
+    });
+
+    let wait = setInterval(() => {
+      if (obj.images.original.original_images.length == 2) {
+        console.log(obj.images.original.original_images[0]);
+        console.log(obj.images.original.original_images[1]);
+
+        const newPothole = new POTHOLE_MODEL(obj);
+        newPothole.save().then(success => {
+          console.log("Successfully saved");
+          res.json({ success: "Saved" });
+        });
+        clearInterval(wait);
+      }
+    }, 1000);
+  }
 });
 
 // Get all potholes
@@ -48,37 +68,65 @@ api.get("/potholes", (req, res) => {
 });
 
 // Upload processed images and potholes parameters
-api.post("/update/:id", multerFunctions.upload.array("images", 4), (req, res) => {
-  let _id = req.params.id;
+api.post(
+  "/update/:id",
+  multerFunctions.upload.array("images", 4),
+  (req, res) => {
+    let _id = req.params.id;
+    let obj;
 
-  POTHOLE_MODEL.findById(_id).then(pothole => {
-    if (pothole) {
-      pothole
-        .update({
-          $set: {
-            images: {
-              original: {
-                image1: pothole.images.original.image1,
-                image2: pothole.images.original.image2
-              },
-              processed: {
-                image1: req.files[0].path,
-                image2: req.files[1].path
-              }
+    POTHOLE_MODEL.findById(_id).then(pothole => {
+      if (pothole) {
+        console.log(pothole);
+        obj = {
+          images: {
+            original: {
+              original_images: [
+                pothole.images.original.original_images[0],
+                pothole.images.original.original_images[1]
+              ]
             },
-            height: req.body.height,
-            length: req.body.length,
-            width: req.body.width
+            processed: {
+              processed_images: []
+            }
+          },
+          height: req.body.height,
+          length: req.body.length,
+          width: req.body.width
+        };
+        console.log("before promise");
+        if (req.files.length !== 0) {
+          console.log("inside if before promise");
+          req.files.forEach((file, index) => {
+            multerFunctions
+              .uploadImageToStorage(file)
+              .then(url => {
+                obj.images.processed.processed_images.push(url);
+              })
+              .catch(err => console.log(err));
+          });
+        }
+
+        let wait = setInterval(() => {
+          if (obj.images.processed.processed_images.length == 2) {
+            pothole
+              .update({
+                $set: obj
+              })
+              .then(updated => {
+                console.log(updated);
+                res.json({
+                  success: true,
+                  message:
+                    "Parameters and processed images updated successfully"
+                });
+              });
+            clearInterval(wait);
           }
-        })
-        .then(updated => {
-          res.json({
-              success: true,
-              message: "Parameters and processed images updated successfully"
-          })
-        });
-    }
-  });
-});
+        }, 1000);
+      }
+    });
+  }
+);
 
 module.exports = api;
