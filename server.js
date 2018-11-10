@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 // Mongoose middleware
-mongoose.connect(process.env.MONGODB || "mongodb://localhost/potholego");
+mongoose.connect("mongodb://localhost/potholego");
 let db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "connection error: "));
