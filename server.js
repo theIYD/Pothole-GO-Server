@@ -5,7 +5,7 @@ require("dotenv").config();
 const app = express();
 
 // Mongoose middleware
-mongoose.connect(process.env.MONGODB || "mongodb://localhost/potholego");
+mongoose.connect(process.env.MONGODB);
 let db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "connection error: "));
