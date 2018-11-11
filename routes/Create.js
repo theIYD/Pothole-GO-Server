@@ -60,11 +60,34 @@ api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
 
 // Get all potholes
 api.get("/potholes", (req, res) => {
-  POTHOLE_MODEL.find({}).then(potholes => {
-    if (potholes) {
-      res.json(potholes);
-    }
-  });
+  // If the body contains lat and lng, show nearby potholes
+  console.log(req.query);
+  if (req.query.lat && req.query.lng) {
+    console.log("inside if");
+    const q = {
+      location: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [req.query.lat, req.query.lng].map(parseFloat)
+          },
+          $minDistance: 0,
+          $maxDistance: 1000
+        }
+      }
+    };
+
+    POTHOLE_MODEL.find(q)
+      .then(potholes => res.json(potholes))
+      .catch(err => res.json(err));
+  } else {
+    console.log("inside else");
+    POTHOLE_MODEL.find({}).then(potholes => {
+      if (potholes) {
+        res.json(potholes);
+      }
+    });
+  }
 });
 
 // Upload processed images and potholes parameters
