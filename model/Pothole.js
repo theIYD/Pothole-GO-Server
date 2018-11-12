@@ -13,12 +13,8 @@ const pothole = new Schema({
     }
   },
   images: {
-    original: {
-      original_images: Array
-    },
-    processed: {
-      processed_images: Array
-    }
+    original: Array,
+    processed: Array
   },
   height: {
     type: Number

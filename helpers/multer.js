@@ -3,16 +3,14 @@ const multer = require("multer");
 const { Storage } = require("@google-cloud/storage");
 
 // Multer Functions
-const storage = new Storage({
-  projectId: "potholego"
-});
+const storage = new Storage({ projectId: "potholego" });
 
 const bucket = storage.bucket("potholego.appspot.com");
 
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 1024 * 1024 * 2
+    fileSize: 1024 * 1024 * 5
   }
 });
 
