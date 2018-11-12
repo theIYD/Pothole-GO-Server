@@ -1,6 +1,5 @@
 const format = require("util").format;
 const multer = require("multer");
-const path = require("path");
 const { Storage } = require("@google-cloud/storage");
 
 // Multer Functions
@@ -13,7 +12,7 @@ const bucket = storage.bucket("potholego.appspot.com");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 2
   }
 });
 

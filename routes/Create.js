@@ -101,57 +101,59 @@ api.post(
     let _id = req.params.id;
     let obj;
 
-    POTHOLE_MODEL.findById(_id).then(pothole => {
-      if (pothole) {
-        console.log(pothole);
-        obj = {
-          images: {
-            original: {
-              original_images: [
-                pothole.images.original.original_images[0],
-                pothole.images.original.original_images[1]
-              ]
+    POTHOLE_MODEL.findById(_id)
+      .then(pothole => {
+        if (pothole) {
+          console.log(pothole);
+          obj = {
+            images: {
+              original: {
+                original_images: [
+                  pothole.images.original.original_images[0],
+                  pothole.images.original.original_images[1]
+                ]
+              },
+              processed: {
+                processed_images: []
+              }
             },
-            processed: {
-              processed_images: []
-            }
-          },
-          height: req.body.height,
-          length: req.body.length,
-          width: req.body.width
-        };
+            height: req.body.height,
+            length: req.body.length,
+            width: req.body.width
+          };
 
-        if (req.files.length !== 0) {
-          req.files.forEach((file, index) => {
-            multerFunctions
-              .uploadImageToStorage(file)
-              .then(url => {
-                obj.images.processed.processed_images.push(url);
-              })
-              .catch(err => res.json(err));
-          });
-        }
-
-        let wait = setInterval(() => {
-          if (obj.images.processed.processed_images.length == 2) {
-            pothole
-              .update({
-                $set: obj
-              })
-              .then(updated => {
-                console.log(updated);
-                res.json({
-                  success: true,
-                  message:
-                    "Parameters and processed images updated successfully"
-                });
-              })
-              .catch(err => res.json(err));
-            clearInterval(wait);
+          if (req.files.length !== 0) {
+            req.files.forEach((file, index) => {
+              multerFunctions
+                .uploadImageToStorage(file)
+                .then(url => {
+                  obj.images.processed.processed_images.push(url);
+                })
+                .catch(err => res.json(err));
+            });
           }
-        }, 1000);
-      }
-    });
+
+          let wait = setInterval(() => {
+            if (obj.images.processed.processed_images.length == 2) {
+              pothole
+                .update({
+                  $set: obj
+                })
+                .then(updated => {
+                  console.log(updated);
+                  res.json({
+                    success: true,
+                    message:
+                      "Parameters and processed images updated successfully"
+                  });
+                })
+                .catch(err => res.json(err));
+              clearInterval(wait);
+            }
+          }, 1000);
+        }
+      })
+      .catch(err => res.json(err));
   }
 );
 
