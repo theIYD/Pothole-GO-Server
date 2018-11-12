@@ -49,10 +49,13 @@ api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
         console.log(obj.images.original.original_images[1]);
 
         const newPothole = new POTHOLE_MODEL(obj);
-        newPothole.save().then(success => {
-          console.log("Successfully saved");
-          res.json({ success: "Saved" });
-        });
+        newPothole
+          .save()
+          .then(success => {
+            console.log("Successfully saved");
+            res.json({ success: "Saved" });
+          })
+          .catch(err => res.json(err));
         clearInterval(wait);
       }
     }, 1000);
@@ -62,9 +65,7 @@ api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
 // Get all potholes
 api.get("/potholes", (req, res) => {
   // If the url contains lat and lng in the query object, show nearby potholes
-  console.log(req.query);
   if (req.query.lat && req.query.lng) {
-    console.log("inside if");
     const q = {
       location: {
         $near: {
@@ -82,11 +83,13 @@ api.get("/potholes", (req, res) => {
       .then(potholes => res.json(potholes))
       .catch(err => res.json(err));
   } else {
-    POTHOLE_MODEL.find({}).then(potholes => {
-      if (potholes) {
-        res.json(potholes);
-      }
-    });
+    POTHOLE_MODEL.find({})
+      .then(potholes => {
+        if (potholes) {
+          res.json(potholes);
+        }
+      })
+      .catch(err => res.json(err));
   }
 });
 
@@ -125,7 +128,7 @@ api.post(
               .then(url => {
                 obj.images.processed.processed_images.push(url);
               })
-              .catch(err => console.log(err));
+              .catch(err => res.json(err));
           });
         }
 
@@ -142,7 +145,8 @@ api.post(
                   message:
                     "Parameters and processed images updated successfully"
                 });
-              });
+              })
+              .catch(err => res.json(err));
             clearInterval(wait);
           }
         }, 1000);
