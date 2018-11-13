@@ -12,7 +12,9 @@ require("../model/Pothole");
 const POTHOLE_MODEL = mongoose.model("pothole");
 
 // Register a pothole
-api.post("/create", multerFunctions.upload.array("images", 4), (req, res) => {
+api.post("/create", multerFunctions.upload.array(), (req, res) => {
+  console.log(req);
+
   let obj;
 
   obj = {
