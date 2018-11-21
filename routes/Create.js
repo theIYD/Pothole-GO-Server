@@ -3,7 +3,6 @@ const express = require("express");
 const multerFunctions = require("../helpers/multer");
 const methodOverride = require("method-override");
 const jwt = require("jsonwebtoken");
-const secret = require("../config/jwt").secret;
 const api = express.Router();
 
 // Verify Token Middleware
