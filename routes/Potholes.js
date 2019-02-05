@@ -12,7 +12,7 @@ api.use(methodOverride("_method"));
 api.post(
   "/create",
   verifyToken,
-  multerFunctions.upload.array("images", 4),
+  multerFunctions.upload.single("image"),
   potholeController.createAPothole
 );
 
@@ -20,11 +20,11 @@ api.post(
 api.get("/potholes", verifyToken, potholeController.getAllPotholes);
 
 // Upload processed images and potholes parameters
-api.post(
-  "/update/:id",
-  verifyToken,
-  multerFunctions.upload.array("images", 4),
-  potholeController.updatePothole
-);
+// api.post(
+//   "/update/:id",
+//   verifyToken,
+//   multerFunctions.upload.array("images", 4),
+//   potholeController.updatePothole
+// );
 
 module.exports = api;
