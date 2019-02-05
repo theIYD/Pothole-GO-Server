@@ -12,24 +12,25 @@ const pothole = new Schema({
       required: true
     }
   },
-  images: {
-    original: Array,
-    processed: Array
+  count: {
+    type: Number,
+    default: 0
   },
-  height: {
-    type: Number
+  images: {
+    type: String,
+    required: true
+  },
+  potholes: {
+    type: Array,
+    required: true
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   timestamp: {
     type: Date,
-    required: true
-  },
-  length: {
-    type: Number,
-    required: true
-  },
-  width: {
-    type: Number,
-    required: true
+    default: Date.now
   }
 });
 
