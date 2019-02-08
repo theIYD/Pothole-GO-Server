@@ -68,9 +68,6 @@ exports.getAllPotholes = (req, res, next) => {
       } else {
         queryPothole = {};
       }
-      // POTHOLE_MODEL.find(queryPothole)
-      //   .then(potholes => res.status(200).json(potholes))
-      //   .catch(err => res.json(err));
       const potholesSearched = await POTHOLE_MODEL.find(queryPothole);
       if (potholesSearched) {
         res.status(200).json(potholesSearched);
