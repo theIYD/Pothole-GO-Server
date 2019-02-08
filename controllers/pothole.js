@@ -14,8 +14,12 @@ exports.createAPothole = (req, res, next) => {
           lng: req.body.lng
         },
         images: "",
-        potholes: []
+        potholes: [],
+        pitch: req.body.pitch
       };
+
+      console.log(req.body);
+      console.log(req.file);
 
       if (req.file) {
         const url = await multerFunctions.uploadImageToStorage(req.file);

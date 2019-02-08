@@ -28,6 +28,10 @@ const pothole = new Schema({
     type: Boolean,
     default: false
   },
+  pitch: {
+    type: Number,
+    default: 0
+  },
   timestamp: {
     type: Date,
     default: Date.now
