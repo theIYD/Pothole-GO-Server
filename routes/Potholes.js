@@ -27,4 +27,6 @@ api.get("/potholes", verifyToken, potholeController.getAllPotholes);
 //   potholeController.updatePothole
 // );
 
+api.post("/verify/:id", verifyToken, multerFunctions.upload.single("updatedimage"), potholeController.verifyPothole)
+
 module.exports = api;
