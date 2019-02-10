@@ -17,7 +17,7 @@ const pothole = new Schema({
     default: 0
   },
   images: {
-    type: String,
+    type: Array,
     required: true
   },
   potholes: {
