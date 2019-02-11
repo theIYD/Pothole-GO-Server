@@ -159,8 +159,11 @@ exports.verifyPothole = (req, res, next) => {
       const url = await multerFunctions.uploadImageToStorage(imageFile);
       if (url) {
         console.log(url);
+        res.status(200).json({
+          message: "URL generated. URL should go to the model"
+        });
         // Send url to ML model
-        // let isPothole = talk()
+        // let isPothole = await talk(url)
         // if(!isPothole) {
         //   const updatedPothole = await pothole.updateOne(
         //     { _id: id },

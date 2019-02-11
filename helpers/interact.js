@@ -11,7 +11,11 @@ let interactWithPython = data => {
     console.log(pythonScriptPth);
 
     let pyshell = new PYShell(pythonScriptPth);
-    pyshell.send(JSON.stringify(data));
+    if(typeof data === "object") {
+      pyshell.send(JSON.stringify(data));
+    } else {
+      pyshell.send(data);
+    }
     pyshell.on("message", function(message) {
       // received a message sent from the Python script (a simple "print" statement)
       console.log(message);
