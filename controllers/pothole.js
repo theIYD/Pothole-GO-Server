@@ -150,12 +150,13 @@ exports.verifyPothole = (req, res, next) => {
       console.log(err);
       return;
     }
-
+    console.log(req.body);
     const imageFile = req.file;
     const id = req.params.id;
+    const pitch = req.body.pitch;
 
     const pothole = await POTHOLE_MODEL.findById(id);
-    if (imageFile && id) {
+    if (imageFile && id && pitch) {
       const url = await multerFunctions.uploadImageToStorage(imageFile);
       if (url) {
         console.log(url);

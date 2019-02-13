@@ -19,14 +19,7 @@ api.post(
 // Get all potholes
 api.get("/potholes", verifyToken, potholeController.getAllPotholes);
 
-// Upload processed images and potholes parameters
-// api.post(
-//   "/update/:id",
-//   verifyToken,
-//   multerFunctions.upload.array("images", 4),
-//   potholeController.updatePothole
-// );
-
+// Verify a pothole
 api.post("/verify/:id", verifyToken, multerFunctions.upload.single("updatedimage"), potholeController.verifyPothole)
 
 module.exports = api;
