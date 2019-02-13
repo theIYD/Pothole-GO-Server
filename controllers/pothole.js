@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 // const talk = require("../helpers/interact");
 const multerFunctions = require("../helpers/multer");
+const mongoose = require("mongoose");
 const POTHOLE_MODEL = require("../model/Pothole");
 
 exports.createAPothole = (req, res, next) => {
@@ -156,21 +157,30 @@ exports.verifyPothole = (req, res, next) => {
     const pitch = req.body.pitch;
 
     const pothole = await POTHOLE_MODEL.findById(id);
+    console.log(pothole);
     if (imageFile && id && pitch) {
       const url = await multerFunctions.uploadImageToStorage(imageFile);
       if (url) {
         console.log(url);
-        res.status(200).json({
-          message: "URL generated. URL should go to the model"
-        });
-        // Send url to ML model
+
         // let isPothole = await talk(url)
         // if(!isPothole) {
-        //   const updatedPothole = await pothole.updateOne(
-        //     { _id: id },
-        //     { $set: { images: pothole.images.push(url), isVerified: true } }
-        //   );
+
         // }
+        const temp = await POTHOLE_MODEL.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(id) },
+          {
+            $push: { images: url },
+            pitch: req.body.pitch,
+            isVerified: true
+          },
+          { new: true }
+        );
+        console.log(temp);
+        res.status(200).json({
+          message: "URL generated. URL should go to the model",
+          updated: temp
+        });
       }
     }
   });
