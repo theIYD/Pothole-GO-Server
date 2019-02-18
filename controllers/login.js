@@ -3,8 +3,6 @@ const User = require("../model/User");
 
 // Check if the user already exists in the database. If not, create a document and release a new token. Else, just release a new token
 exports.loginUser = (req, res, next) => {
-  console.log(req.query);
-
   let user = {
     username: req.query.username,
     email: req.query.email
@@ -16,8 +14,8 @@ exports.loginUser = (req, res, next) => {
   })
     .then(user => {
       if (user) {
-        console.log("existing user");
         jwt.sign({ user }, "secretkey", { expiresIn: "365d" }, (err, token) => {
+          console.log("Logged in to the application...")
           res.status(200).json({
             success: 2,
             token: token
@@ -32,12 +30,12 @@ exports.loginUser = (req, res, next) => {
         newUser
           .save()
           .then(success => {
-            console.log("new user");
             jwt.sign(
               { user },
               "secretkey",
               { expiresIn: "365d" },
               (err, token) => {
+                console.log("Logged in to the application...")
                 res.status(200).json({
                   success: 1,
                   token: token

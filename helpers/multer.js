@@ -10,7 +10,7 @@ const bucket = storage.bucket("potholego.appspot.com");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 15
   }
 });
 

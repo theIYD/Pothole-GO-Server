@@ -30,7 +30,12 @@ const pothole = new Schema({
   },
   pitch: {
     type: Number,
+    required: true,
     default: 0
+  },
+  height: {
+    type: Number,
+    required: true
   },
   timestamp: {
     type: Date,

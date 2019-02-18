@@ -3,12 +3,8 @@ const path = require("path");
 
 let interactWithPython = data => {
   let pyTalk = new Promise((resolve, reject) => {
-    console.log(data);
-    let pythonScriptPth = path.resolve(
-      __dirname,
-      "../Pothole-GO-Python/Pothole-Go-Python/test_sizeMixed/mixed3.py"
-    );
-    console.log(pythonScriptPth);
+    console.log("\nPrediction started ....\n");
+    let pythonScriptPth = "E:/PythonProjects/DeepBluePothole/Tensorflow/models/research/object_detection/object_detection_2.py"
 
     let pyshell = new PYShell(pythonScriptPth);
     if(typeof data === "object") {
@@ -16,19 +12,14 @@ let interactWithPython = data => {
     } else {
       pyshell.send(data);
     }
-    pyshell.on("message", function(message) {
-      // received a message sent from the Python script (a simple "print" statement)
-      console.log(message);
-      resolve(message);
+    pyshell.on("message", (message) => {
+      resolve(JSON.parse(message));
     });
 
-    // end the input stream and allow the process to exit
-    pyshell.end(function(err) {
+    pyshell.end(err => {
       if (err) {
         reject(err);
       }
-
-      console.log("finished");
     });
   });
   return pyTalk;
