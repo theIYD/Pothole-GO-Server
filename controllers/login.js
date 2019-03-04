@@ -93,5 +93,7 @@ exports.registerAdmin = async (req, res, next) => {
         res.status(200).json({ message: "Admin already registered" });
       }
     }
-  } catch (err) {}
+  } catch (err) {
+    res.status(500).json({ data: err });
+  }
 };
