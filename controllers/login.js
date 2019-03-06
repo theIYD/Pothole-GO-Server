@@ -41,6 +41,7 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
+// Log in to the admin and release a token 
 exports.adminLogin = async (req, res, next) => {
   const admin = {
     username: req.query.username,
@@ -69,6 +70,7 @@ exports.adminLogin = async (req, res, next) => {
   }
 };
 
+// Register a admin 
 exports.registerAdmin = async (req, res, next) => {
   const admin = {
     username: req.query.username,
