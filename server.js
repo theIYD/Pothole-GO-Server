@@ -27,6 +27,9 @@ app.use(
 app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
 
+// CORS
+app.use(cors())
+
 // Default route
 app.get("/api/v1", (req, res) => {
   res.json("Pothole Go");
