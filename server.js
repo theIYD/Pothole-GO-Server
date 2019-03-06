@@ -1,13 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 const app = express();
 
 // Mongoose middleware
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 mongoose
   .connect(process.env.MONGODB)
   .then(result => {
@@ -28,7 +29,7 @@ app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
 
 // CORS
-app.use(cors())
+app.use(cors());
 
 // Default route
 app.get("/api/v1", (req, res) => {
