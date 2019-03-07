@@ -41,36 +41,43 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
-// Log in to the admin and release a token 
+// Log in to the admin and release a token
 exports.adminLogin = async (req, res, next) => {
   const admin = {
     username: req.query.username,
     password: req.query.password
   };
-
   try {
     const hashedPassword = await bcrypt.hash(admin.password, 12);
+    console.log(hashedPassword);
     if (hashedPassword) {
-      const admin = await Admin.findOne({
-        username: admin.username,
-        password: hashedPassword
+      const adminFound = await Admin.findOne({
+        username: admin.username
       });
-
-      if (admin) {
-        jwt.sign({ admin }, "secretkey", { expiresIn: "7d" }, (err, token) => {
-          console.log("Admin Logged in");
-          res.status(200).json({
-            token: token
-          });
-        });
+      if (adminFound) {
+        if (hashedPassword === adminFound.password) {
+          jwt.sign(
+            { adminFound },
+            "secretkey",
+            { expiresIn: "7d" },
+            (err, token) => {
+              console.log("Admin Logged in");
+              res.status(200).json({
+                token: token
+              });
+            }
+          );
+        } else {
+          res.status(200).json({ message: "Passwords do not match" });
+        }
       }
     }
-  } catch (err) {
-    res.status(500).json({ data: err });
+  } catch (error) {
+    res.status(500).json({ data: error });
   }
 };
 
-// Register a admin 
+// Register a admin
 exports.registerAdmin = async (req, res, next) => {
   const admin = {
     username: req.query.username,
@@ -84,7 +91,7 @@ exports.registerAdmin = async (req, res, next) => {
         username: admin.username,
         password: hashedPassword
       });
-      const isAdminRegistered = await Admin.find(createAdmin);
+      const isAdminRegistered = await Admin.findOne(createAdmin);
       if (!isAdminRegistered) {
         const savedAdmin = await createAdmin.save();
 
