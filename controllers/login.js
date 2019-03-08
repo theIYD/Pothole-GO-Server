@@ -48,14 +48,17 @@ exports.adminLogin = async (req, res, next) => {
     password: req.query.password
   };
   try {
-    const hashedPassword = await bcrypt.hash(admin.password, 12);
-    console.log(hashedPassword);
-    if (hashedPassword) {
+    if (admin) {
       const adminFound = await Admin.findOne({
         username: admin.username
       });
       if (adminFound) {
-        if (hashedPassword === adminFound.password) {
+        let isEqualPassword = await bcrypt.compare(
+          admin.password,
+          adminFound.password
+        );
+        console.log(isEqualPassword);
+        if (isEqualPassword) {
           jwt.sign(
             { adminFound },
             "secretkey",
