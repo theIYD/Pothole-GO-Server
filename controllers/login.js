@@ -88,7 +88,8 @@ exports.adminLogin = async (req, res, next) => {
 exports.registerAdmin = async (req, res, next) => {
   const admin = {
     username: req.query.username,
-    password: req.query.password
+    password: req.query.password,
+    ward: req.body.ward
   };
 
   try {
@@ -96,7 +97,8 @@ exports.registerAdmin = async (req, res, next) => {
       const hashedPassword = await bcrypt.hash(admin.password, 12);
       const createAdmin = new Admin({
         username: admin.username,
-        password: hashedPassword
+        password: hashedPassword,
+        ward: admin.ward
       });
       const isAdminRegistered = await Admin.findOne(createAdmin);
       if (!isAdminRegistered) {
