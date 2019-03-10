@@ -20,6 +20,17 @@ api.post(
 api.get("/potholes", verifyToken, potholeController.getAllPotholes);
 
 // Verify a pothole
-api.post("/verify/:id", verifyToken, multerFunctions.upload.single("updatedimage"), potholeController.verifyPothole)
+api.post(
+  "/verify/:id",
+  verifyToken,
+  multerFunctions.upload.single("updatedimage"),
+  potholeController.verifyPothole
+);
+
+// Create a ward
+api.post("/createWard", multerFunctions.upload.none(), potholeController.createAWard)
+
+// Find potholes according to the ward
+api.get('/potholesByWard', potholeController.showPotholesByWards)
 
 module.exports = api;
