@@ -73,7 +73,11 @@ exports.adminLogin = async (req, res, next) => {
         } else {
           res.status(200).json({ message: "Passwords do not match" });
         }
+      } else {
+        res.status(200).json({message: "Admin not found"})
       }
+    } else {
+        res.status(200).json({message: "No data recieved."})
     }
   } catch (error) {
     res.status(500).json({ data: error });
