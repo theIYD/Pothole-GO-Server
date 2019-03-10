@@ -9,6 +9,10 @@ const adminSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  ward: {
+    type: String,
+    required: true
   }
 });
 
