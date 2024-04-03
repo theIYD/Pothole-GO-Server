@@ -1,2 +1,4 @@
 node_modules/
-.envconfig/potholego.json
+.env
+config/potholego.json
+potholego.json
